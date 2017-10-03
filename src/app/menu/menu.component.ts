@@ -1,14 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-<<<<<<< HEAD
 
 import { Dish } from '../shared/dish';
-import { DISHES } from '../shared/dishes';
-=======
 
-import { Dish } from '../shared/dish';
 import { DishService } from '../services/dish.service';
-
->>>>>>> a60e96d
 
 @Component({
   selector: 'app-menu',
@@ -18,13 +12,7 @@ import { DishService } from '../services/dish.service';
 
 export class MenuComponent implements OnInit {
 
-<<<<<<< HEAD
-  dishes = DISHES;
-
-  selectedDish: Dish;
-=======
   dishes: Dish[];
->>>>>>> a60e96d
 
   selectedDish: Dish;
 
@@ -35,16 +23,8 @@ export class MenuComponent implements OnInit {
   }
     
   onSelect(dish){
-      this.selectedDish = dish;
-  }
-<<<<<<< HEAD
-  
-  onSelect(dish: Dish) {
     this.selectedDish = dish;
   }
-
-=======
->>>>>>> a60e96d
 }
 
 
