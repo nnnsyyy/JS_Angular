@@ -4,6 +4,7 @@ import { DISHES } from '../shared/dishes';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/delay';
+// import 'rxjs/add/observable/of';
 
 @Injectable()
 export class DishService {
@@ -20,5 +21,10 @@ export class DishService {
 
   getFeaturedDish(): Observable<Dish>{
     return Observable.of(DISHES.filter((item)=>(item.featured))[0]).delay(2000);
+  }
+
+  getDishIds():Observable<number[]>{
+    // One way to get array
+    return Observable.of(DISHES.map(dish => dish.id));
   }
 }

@@ -1,16 +1,16 @@
 <div class="container"
      fxLayout="column"
      fxLayoutGap="10px">
-  
-  
+
+
   <div fxFlex>
     <div>
       <h3>Menu</h3>
       <hr>
     </div>
   </div>
-  
-  
+
+
   <div fxFlex *ngIf="dishes">
     <md-grid-list cols="2" rowHeight="200px">
       <md-grid-tile *ngFor="let dish of dishes" [routerLink]="['/dishdetail',dish.id]">
