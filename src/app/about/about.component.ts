@@ -10,13 +10,14 @@ import { LeaderService } from '../services/leader.service';
   styleUrls: ['./about.component.scss']
 })
 export class AboutComponent implements OnInit {
-  
+
   leaders: Leader[];
 
   constructor(private leaderservice:LeaderService) { }
 
   ngOnInit() {
-      this.leaders = this.leaderservice.getLeaders();
+      this.leaderservice.getLeaders()
+        .subscribe(leaders => this.leaders = leaders);
   }
 
 }
