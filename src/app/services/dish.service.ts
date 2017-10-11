@@ -1,30 +1,43 @@
 import { Injectable } from '@angular/core';
+import { Http, Response } from '@angular/http';
+import { baseURL } from '../shared/baseurl';
 import { Dish } from '../shared/dish';
 import { DISHES } from '../shared/dishes';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/delay';
-// import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/catch';
+
+import { ProcessHttpmsgService } from './process-httpmsg.service';
 
 @Injectable()
 export class DishService {
 
-  constructor() { }
+  constructor(private http: Http,
+    private processHttpMsgService: ProcessHttpmsgService) { }
 
-  getDishes(): Observable<Dish[]> {
-    return Observable.of(DISHES).delay(2000);
+  getDishes():Observable<Dish[]> {
+    // return Observable.of(DISHES).delay(2000);
+    // Once get the response(res), map it to service function to be json
+    return this.http.get(baseURL + 'dishes')
+      .map(res => {return this.processHttpMsgService.extractData(res)});
   }
 
   getDish(id: number): Observable<Dish>{
-    return Observable.of(DISHES.filter((item)=>(item.id === id))[0]).delay(2000);
+    return this.http.get(baseURL + 'dishes/' + id)
+      .map(res => {return this.processHttpMsgService.extractData(res)});
   }
 
   getFeaturedDish(): Observable<Dish>{
-    return Observable.of(DISHES.filter((item)=>(item.featured))[0]).delay(2000);
+    // using creative parameter '?'
+    // returning an array!!!!
+    return this.http.get(baseURL + 'dishes?featured=true')
+      .map(res => {return this.processHttpMsgService.extractData(res)[0]});
   }
 
   getDishIds():Observable<number[]>{
     // One way to get array
-    return Observable.of(DISHES.map(dish => dish.id));
+    return this.getDishes()
+      .map(dishes => {return dishes.map(dish => dish.id)});
   }
 }
