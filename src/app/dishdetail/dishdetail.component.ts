@@ -8,7 +8,6 @@ import { Dish } from '../shared/dish';
 import { Comment } from '../shared/comment';
 import { DishService } from '../services/dish.service';
 
-
 import 'rxjs/add/operator/switchMap';
 
 @Component({
@@ -40,6 +39,7 @@ export class DishdetailComponent implements OnInit {
        'required':      'Comment is required.'
      },
    };
+   errMess: string;
 
   constructor(private dishservice: DishService,
     private route: ActivatedRoute,
@@ -57,7 +57,8 @@ export class DishdetailComponent implements OnInit {
   // once getDish, subscribe will renew it
     this.route.params
       .switchMap((params: Params) => this.dishservice.getDish(+params['id']))
-      .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); });
+      .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); },
+        errmsg => this.errMess = <any>errmsg);
   }
 
   createForm(){

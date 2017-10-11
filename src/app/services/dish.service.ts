@@ -20,24 +20,30 @@ export class DishService {
     // return Observable.of(DISHES).delay(2000);
     // Once get the response(res), map it to service function to be json
     return this.http.get(baseURL + 'dishes')
-      .map(res => {return this.processHttpMsgService.extractData(res)});
+      .map(res => {return this.processHttpMsgService.extractData(res);})
+      .catch(error => {return this.processHttpMsgService.handleError(error);});
   }
 
   getDish(id: number): Observable<Dish>{
     return this.http.get(baseURL + 'dishes/' + id)
-      .map(res => {return this.processHttpMsgService.extractData(res)});
+      .map(res => {return this.processHttpMsgService.extractData(res);})
+      .catch(error => {return this.processHttpMsgService.handleError(error);});
   }
 
   getFeaturedDish(): Observable<Dish>{
     // using creative parameter '?'
     // returning an array!!!!
     return this.http.get(baseURL + 'dishes?featured=true')
-      .map(res => {return this.processHttpMsgService.extractData(res)[0]});
+      .map(res => {return this.processHttpMsgService.extractData(res)[0];})
+      .catch(error => {return this.processHttpMsgService.handleError(error);});
   }
 
   getDishIds():Observable<number[]>{
     // One way to get array
     return this.getDishes()
-      .map(dishes => {return dishes.map(dish => dish.id)});
+      .map(dishes => {return dishes.map(dish => dish.id);})
+      // if there's any error, getDishes will return error
+      // through service already, so here just need to return directly
+      .catch(error => {return error;});
   }
 }
