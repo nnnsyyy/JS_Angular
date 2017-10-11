@@ -20,6 +20,7 @@ export class DishdetailComponent implements OnInit {
 
   // @Input()
   dish : Dish;
+  dishcopy = null;
   dishIds: number[];
   prev: number;
   next: number;
@@ -57,7 +58,10 @@ export class DishdetailComponent implements OnInit {
   // once getDish, subscribe will renew it
     this.route.params
       .switchMap((params: Params) => this.dishservice.getDish(+params['id']))
-      .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); },
+      .subscribe(dish => { this.dish = dish;
+        // not only get the value but also map 'dish'
+        this.dishcopy = dish;
+        this.setPrevNext(dish.id); },
         errmsg => this.errMess = <any>errmsg);
   }
 
@@ -96,12 +100,15 @@ export class DishdetailComponent implements OnInit {
   }
 
   onSubmit(){
-      var d = new Date();
       // for setting value of specific field
-      this.commentForm.get('date').setValue(d.toISOString());
+      // var d = new Date();
+      // this.commentForm.get('date').setValue(d.toISOString());
       this.comment = this.commentForm.value;
-      this.dish.comments.push(this.comment);
-      console.log(this.comment);
+      this.comment.date = new Date().toISOString();
+      this.dishcopy.comments.push(this.comment);
+      this.dishcopy.save()
+        .subscribe(dish => { this.dish = dish; console.log(this.dish);})
+
       this.commentForm.reset({
       author: '',
       rating: 5,

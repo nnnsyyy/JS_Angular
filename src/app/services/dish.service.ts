@@ -39,7 +39,7 @@ export class DishService {
     // return this.http.get(baseURL + 'dishes?featured=true')
     //   .map(res => {return this.processHttpMsgService.extractData(res)[0];})
     //   .catch(error => {return this.processHttpMsgService.handleError(error);});
-    return this.restangular.all('dish').getList({feature: true})
+    return this.restangular.all('dishes').getList({feature: true})
       .map(dishes => dishes[0]);
   }
 
