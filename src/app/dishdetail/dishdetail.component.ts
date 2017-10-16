@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import { Params, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { flyInOut, visibility, expand } from '../animations/app.animation';
 
 import { Dish } from '../shared/dish';
 import { Comment } from '../shared/comment';
@@ -13,7 +14,16 @@ import 'rxjs/add/operator/switchMap';
 @Component({
   selector: 'app-dishdetail',
   templateUrl: './dishdetail.component.html',
-  styleUrls: ['./dishdetail.component.scss']
+  styleUrls: ['./dishdetail.component.scss'],
+  host: {
+    '[@flyInOut]': 'true',
+    'style': 'display: block;'
+  },
+  animations: [
+    flyInOut(),
+    visibility(),
+    expand()
+  ]
 })
 
 export class DishdetailComponent implements OnInit {
@@ -41,6 +51,7 @@ export class DishdetailComponent implements OnInit {
      },
    };
    errMess: string;
+   visibility = "shown";
 
   constructor(private dishservice: DishService,
     private route: ActivatedRoute,
@@ -57,11 +68,11 @@ export class DishdetailComponent implements OnInit {
   // +: change a string to a integer
   // once getDish, subscribe will renew it
     this.route.params
-      .switchMap((params: Params) => this.dishservice.getDish(+params['id']))
+      .switchMap((params: Params) => {this.visibility = 'hidden'; return this.dishservice.getDish(+params['id']);})
       .subscribe(dish => { this.dish = dish;
         // not only get the value but also map 'dish'
         this.dishcopy = dish;
-        this.setPrevNext(dish.id); },
+        this.setPrevNext(dish.id); this.visibility = 'shown';},
         errmsg => this.errMess = <any>errmsg);
   }
 
