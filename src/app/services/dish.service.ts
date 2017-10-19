@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { baseURL } from '../shared/baseurl';
+// import { baseURL } from '../shared/baseurl';
 import { Dish } from '../shared/dish';
 import { DISHES } from '../shared/dishes';
 
@@ -39,7 +39,7 @@ export class DishService {
     // return this.http.get(baseURL + 'dishes?featured=true')
     //   .map(res => {return this.processHttpMsgService.extractData(res)[0];})
     //   .catch(error => {return this.processHttpMsgService.handleError(error);});
-    return this.restangular.all('dishes').getList({feature: true})
+    return this.restangular.all('dishes').getList({featured: true})
       .map(dishes => dishes[0]);
   }
 

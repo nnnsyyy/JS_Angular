@@ -38,9 +38,9 @@
 
     <div fxFlex fxFlexOffset="20px" class="form-size">
       <h3>Send us your feedback</h3>
-      <p>{{ feedbackForm.value | json }} {{ feedbackForm.status |json }} </p>
 
-      <form novalidate [formGroup]="feedbackForm" (ngSubmit)="onSubmit()">
+      <form novalidate [formGroup]="feedbackForm" (ngSubmit)="onSubmit()"
+       [hidden] = "submitstatus === true">
         <p>
           <md-input-container class="half-width" dividerColor="{{(formErrors.firstname) ? 'warn' : 'primary'}}">
             <input mdInput formControlName="firstname" placeholder="First name" type="text" required>
@@ -93,5 +93,34 @@
           <button type="submit" md-button class="background-primary text-floral-white"
           [disabled]="feedbackForm.invalid">Submit</button>
       </form>
+
+      <div *ngIf="!submitfb" [hidden]="submitstatus === false"  [@expand]>
+        <md-spinner></md-spinner> <h4>Loading... Please wait</h4>
+      </div>
+
+      <div *ngIf="submitfb" [hidden]="submitstatus === false"  [@expand]>
+          <h4>Your Submission</h4>
+          <p>
+              First Name: {{submitfb.firstname}}
+          </p>
+          <p>
+              Last Name: {{submitfb.lastname}}
+          </p>
+          <p>
+              Tel. Number: {{submitfb.telnum}}
+          </p>
+          <p>
+              Email: {{submitfb.email}}
+          </p>
+          <p>
+              Contact You?: {{submitfb.agree}}
+          </p>
+          <p>
+              How? : {{submitfb.contacttype}}
+          </p>
+          <p>
+              Feedback: {{submitfb.message}}
+          </p>
+      </div>
     </div>
 </div>
